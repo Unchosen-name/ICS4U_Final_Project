@@ -11,10 +11,9 @@ public class ProgramDatabase
 			//read from file
 	}
 	
-	
-	public arrayList<Program> searchByUni(String s)
+	public ArrayList<Program> searchByUni(String s)
 	{
-		arrayList<Program> p = new ArrayList<Program>();
+		ArrayList<Program> p = new ArrayList<Program>();
 		int size = programs.size();
 		for (int i = 0; i < size; i++)
 		{
@@ -24,9 +23,9 @@ public class ProgramDatabase
 		return p;
 	}
    
-	public arrayList<Program> searchByCode(String s)
+	public ArrayList<Program> searchByCode(String s)
 	{
-		arrayList<Program> p = new ArrayList<Program>();
+		ArrayList<Program> p = new ArrayList<Program>();
 		int size = programs.size();
 		for (int i = 0; i < size; i++)
 		{
@@ -35,9 +34,9 @@ public class ProgramDatabase
 		}
 		return p;
 	}
-	public arrayList<Program> searchByMajor(String s)
+	public ArrayList<Program> searchByMajor(String s)
 	{
-		arrayList<Program> p = new ArrayList<Program>();
+		ArrayList<Program> p = new ArrayList<Program>();
 		int size = programs.size();
 		for (int i = 0; i < size; i++)
 		{
@@ -47,19 +46,17 @@ public class ProgramDatabase
 		return p;
 	}
 
-   /////////////////
-	public arrayList<Program> searchByAdmissionAverage(double k)
+	public ArrayList<Program> searchByAdmissionAverage(double k)
 	{
-		arrayList<Program> p = new ArrayList<Program>();
+		ArrayList<Program> p = new ArrayList<Program>();
 		int size = programs.size();
 		for (int i = 0; i < size; i++)
 		{
-			if (programs.get(i).searchMajor(s))
+			if (programs.get(i).lowerThan(k))
 				p.add(); //add the element from the list programs
 		}
 		return p;
 	}
-   ///////////////////
 
 	public void addProgram()// by prompt
 	{
@@ -73,7 +70,7 @@ public class ProgramDatabase
 	public void deleteProgram()
 	{
 		
-	}
+	}// delete from a list
 	
 	public void deleteProgram(int index)
 	{

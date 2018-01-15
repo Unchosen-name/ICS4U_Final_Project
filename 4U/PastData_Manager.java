@@ -13,8 +13,6 @@ public class PastData_Manager
 		gradData = new GraduateDatabase(); // graduate database loads from a text file.
 	}
 	
-
-	
 	public static ArrayList<PastData> findPastData (int programID)
 	{
 		ArrayList<PastData> p;
@@ -41,10 +39,9 @@ public class PastData_Manager
 		do{
 			input = sc.nextLine();
 		}
-		while{!Method.inputCheck (input, Method.CURYEAR)}
+		while(!Method.inputCheck (input, Method.CURYEAR));
 		year = Integer.parseInt(Input);
 		System.out.print("Search program: ");
 		// input info about the program here
 	}
-
 }

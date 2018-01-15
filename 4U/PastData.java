@@ -10,11 +10,11 @@ public class PastData
 	private int admissionCount;
 	private int program;
 
-	public PastData(int y, int p, double lowest, double mean, double median, double admission)
+	public PastData(int y, int p, double lowest, double mean, double median, int admission)
 	{
 		year = y;
 		program = p;
-		lowestAverage = average;
+		lowestAverage = lowest;
 		this.mean = mean;
 		this.median = median;
 		admissionCount = admission;

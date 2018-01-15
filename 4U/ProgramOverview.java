@@ -9,7 +9,7 @@ public class ProgramOverview
 	private boolean coop;
 	private int enrollment;
 	private double admissionAverage;
-   	Scanner sc = new Scanner (System.in);
+   Scanner sc = new Scanner (System.in);
 	
 	public ProgramOverview(String n, String u, String o, String m, boolean c, int e, double a)
 	{
@@ -56,7 +56,7 @@ public class ProgramOverview
 		return name; 
 	}
 
-	public String geMajor()
+	public String getMajor()
 	{
 		return major; 
 	}
@@ -76,7 +76,7 @@ public class ProgramOverview
 		String s = ("Program name: " + name + "\nUniversity: " + university + "\nOUAC code : "+ ouacCode + "\nMajor: " + major + "\nCoop option: ");
 		s+= (coop?"Yes":"No");
 		s+= "\nEnrollment: " + enrollment + "\n";
-		s+= "Lowest average: " + loewestAverage;
+		s+= "Lowest average: " + admissionAverage;
 		return s;
 	}
 	

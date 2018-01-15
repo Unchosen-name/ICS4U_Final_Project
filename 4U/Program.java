@@ -10,12 +10,12 @@ public class Program
 	private double admissionAverage;
 	Scanner sc = new Scanner(System.in);
 	
-	public Program(ProgramOverview po, ArrayList<CourseRequirement> c, AdditionalInfo info, ContactInfo c, int programID, double average)
+	public Program(ProgramOverview po, ArrayList<CourseRequirement> c, AdditionalInfo info, ContactInfo ci, int programID, double average)
 	{
 		overview = po;
 		course = c;
 		additionalInfo = info;
-		contact = c;
+		contact = ci;
 		id = programID;
 		admissionAverage = average;
 	}//file is read from the ProgramDatabase class to initialize Program class
@@ -23,22 +23,22 @@ public class Program
    public Program ()
    {
       overview = new ProgramOverview();
-      AdditionalInfo = new AdditionalInfo();
+      additionalInfo = new AdditionalInfo();
       contact = new ContactInfo();
-      CoureseRequirement c;
+      CourseRequirement c;
       boolean exit;
-      int input;
+      String input;
       System.out.print ("Enter an input that is not positve integers to exit from entering courses: ");
-      input = Integer.parseInt(sc.nextLine());
-      exit = checkInput(input, 0);
+      input = sc.nextLine();
+      exit = !Method.inputCheck(input, 0);
       for (int i = 0;  i <6 && !exit; i++)
       {
          
          c = new CourseRequirement();
          course.add(c);
          System.out.print ("Enter an input that is not positve integers to exit from entering courses: ");
-         input = Integer.parseInt(sc.nextLine());
-         exit = !checkInput(input, 0);
+         input = sc.nextLine();
+         exit = !Method.inputCheck(input, 0);
       }
       
    }
@@ -48,7 +48,8 @@ public class Program
 		//wait for the rest to finish
 	}
 	
-	public void displayPastData()
+	
+/*	public void displayPastData()
 	{
 		int size = pastData.size();
 		String input;
@@ -71,7 +72,7 @@ public class Program
 		}
 		else
 			System.out.println("The past data is empty");
-	}
+	}*/
 	
 	public String toString()
 	{
@@ -80,7 +81,7 @@ public class Program
 
 	public boolean searchProgram(String s)
 	{
-			return (overview.getName().get.toLowerCase().contains(s.toLowerCase()));
+			return (overview.getName().toLowerCase().contains(s.toLowerCase()));
 	}
 	public boolean searchOuacCode(String s)
 	{
@@ -95,6 +96,11 @@ public class Program
 			return (overview.getMajor().toLowerCase().contains(s.toLowerCase()));
 	}
       
+	public boolean lowerThan(double n)
+	{
+		return (admissionAverage <= n);
+	}	
+	
    private void save()
    {
       try 
