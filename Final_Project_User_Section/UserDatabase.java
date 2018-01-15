@@ -21,8 +21,7 @@
 		}
 		
 		//load admin list from file
-		public boolean loadAdminList(){
-			
+		public void loadAdminList(){
 			try{
 				BufferedReader in = new BufferedReader(new FileReader(ADMINFILE));
 				
@@ -42,11 +41,10 @@
 			catch(NumberFormatException nfe){
 				System.out.println("Error converting from string to integer");
 			}
-			
 		}
 		
 		//load staff list from file
-		public boolean loadStudentList(){
+		public void loadStudentList(){
 			
 			try{
 				BufferedReader in = new BufferedReader(new FileReader(STUDENTFILE));
@@ -57,6 +55,8 @@
 				for(int i=0; i<num; i++){
 					in.readLine();
 					
+					String username = in.readLine();
+					String password = in.readLine();
 					String firstName = in.readLine();
 					String lastName = in.readLine();
 					String oen = in.readLine();
@@ -68,10 +68,10 @@
 						ActiveCourse active = new ActiveCourse(in.readLine(), Double.parseDouble(in.readLine()));
 						courseList.add(active);
 					}
-					CourseTracker courseTracker = new Coursetracker(courseList);
+					CourseTracker courseTracker = new CourseTracker(courseList);
 					boolean acceptedToUni = Boolean.parseBoolean(in.readLine());
 					
-					Studemt stu = new Student(firstName, lastName, oen, studentNumber, courseTracker, acceptedToUni);
+					Student stu = new Student(username, password, firstName, lastName, oen, studentNumber, courseTracker, acceptedToUni);
 					studentTracker.add(stu);
 				}
 				
@@ -87,8 +87,7 @@
 		}
 
 		//save admin list to file
-		public boolean saveAdminList(){
-			
+		public void saveAdminList(){
 			try{
 				BufferedWriter out = new BufferedWriter(new FileWriter(ADMINFILE));
 				
@@ -111,12 +110,10 @@
 			catch(IOException iox){
 				System.out.println("Error writing to file");
 			}
-			
 		}
 		
 		//save student list to file
-		public boolean saveStudentList(){
-			
+		public void saveStudentList(){
 			try{
 				BufferedWriter out = new BufferedWriter(new FileWriter(STUDENTFILE));
 				
@@ -140,19 +137,17 @@
 					out.newLine();
 					
 					for(ActiveCourse course : stu.getCourseTracker().getCourseList()){
-						out.write(course.getCourseCode());
+						out.write(course.getCourseCode() + "");
 						out.newLine();
-						out.write(course.getMark());
+						out.write(course.getMark() + "");
 						out.newLine();
 					}
 					
-					out.write(stu.getAcceptedToUni());
+					out.write(stu.getAcceptedToUni() + "");
 					out.newLine();
 
 				}
-				
 				out.close();
-				
 			}
 			catch(IOException iox){
 				System.out.println("Error writing to file");
@@ -204,7 +199,7 @@
 			else{
 				for(Student student: studentTracker){
 					if(student.getUsername().equals(user) && student.getPassword().equals(oldpass)){
-						student.setPassword(newpass);
+						student.setPassword(oldpass, newpass);
 						return true;
 					}
 				}
@@ -227,7 +222,7 @@
 			else{
 				for(Student student: studentTracker){
 					if(student.getUsername().equals(user) && student.getPassword().equals(oldpass)){
-						student.setUsername(newuser);
+						student.setUsername(oldpass, newuser);
 						return true;
 					}
 				}
@@ -239,7 +234,7 @@
 		public User searchUser(String type, String user, String pass){
 			if(type.equals("Admin")){
 				for(Admin admin: adminTracker){
-					if(admin.getUsername().equals(user) && student.getPassword().equals(pass)){
+					if(admin.getUsername().equals(user) && admin.getPassword().equals(pass)){
 						return admin;
 					}
 				}
@@ -248,7 +243,7 @@
 			else{
 				for(Student student: studentTracker){
 					if(student.getUsername().equals(user) && student.getPassword().equals(pass)){
-						return admin;
+						return student;
 					}
 				}
 				return null;
