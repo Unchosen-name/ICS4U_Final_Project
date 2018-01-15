@@ -67,7 +67,8 @@
 		      //executes the choice number				
 		      switch (choice){
 		         case 1:
-		            //call inactive Q&A display            
+		            	QNAAdmin.initQNA();
+				QNAAdmin.displayMenu();
 		         	break;
 		         	
 		    	   case 2:
@@ -79,11 +80,8 @@
 						//MORE IMPLEMENTATION
 						System.out.println("Execute updateMark Method");
 						
-                    case 4:
-                        //add program
-                        break;
-                      
-					case 5: 
+					
+					case 4: 
 						keepOnGoing = false;
 						break;
 							
