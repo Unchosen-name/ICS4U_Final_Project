@@ -66,28 +66,30 @@
 		      
 		      //executes the choice number				
 		      switch (choice){
-		         case 1:
+		          case 1:
 		            	QNAAdmin.initQNA();
 				QNAAdmin.displayMenu();
 		         	break;
 		         	
-		    	   case 2:
-						//call program list method
+		    	  case 2:
+				//call program list method
 							
-						break;
+				break;
 		         	
-					case 3:
-						//MORE IMPLEMENTATION
-						System.out.println("Execute updateMark Method");
-						
+			  case 3:
+				//MORE IMPLEMENTATION
+				System.out.println("Execute updateMark Method");
+				      
+			  case 4: 
+				//Add program 			
 					
-					case 4: 
-						keepOnGoing = false;
-						break;
+			  case 5: 
+				keepOnGoing = false;
+				break;
 							
-					default:
-						System.out.println("Enter a valid option");
-						break;
+			  default:
+				System.out.println("Enter a valid option");
+			 	break;
 		  	   }
 			}
       }
