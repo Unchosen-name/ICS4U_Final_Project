@@ -52,7 +52,7 @@ public class GraduateDatabase {
 				}
 				double average = Double.parseDouble(in.readLine());
 				String university = in.readLine();
-				String programID = Integer.parseInt(in.readLine());
+				int programID = Integer.parseInt(in.readLine());
 				int yearGraduated = Integer.parseInt(in.readLine());
 				Graduate graduate = new Graduate(graduateID, firstName, lastName, courseList, average, university, programID, yearGraduated);
 				graduateList.add(graduate);
@@ -226,7 +226,7 @@ public class GraduateDatabase {
 	public double findLowestAverage (int programID, int year) {
 		double lowestAverage = Integer.MAX_VALUE;
 		for (Graduate graduate : graduateList) {
-			if (graduate.getProgramID() == (programID && graduate.getYearGraduated() == year && graduate.getTopSixAverage() < lowestAverage) {
+			if (graduate.getProgramID() == programID && graduate.getYearGraduated() == year && graduate.getTopSixAverage() < lowestAverage) {
 				lowestAverage = graduate.getTopSixAverage();
 			}
 		}
@@ -238,7 +238,7 @@ public class GraduateDatabase {
 	* Takes in a programID and returns an ArrayList of all Graduates who were
 	* admitted to that program in the past MAX_YEARS_FROM_GRAD years.
 	*/
-	public static ArrayList<Graduate> findGradList (int programID) {
+	public ArrayList<Graduate> findGradList (int programID) {
 		ArrayList<Graduate> list = new ArrayList<>();
 
 		for (Graduate graduate : graduateList) {
@@ -255,11 +255,11 @@ public class GraduateDatabase {
 	* Takes in a programID and a year. Returns an ArrayList of all Graduates who were
 	* admitted to the specified program in the specified year.
 	*/
-	public static ArrayList<Graduate> findGradList (int programID, int year) {
+	public ArrayList<Graduate> findGradList (int programID, int year) {
 		ArrayList<Graduate> list = new ArrayList<>();
 
 		for (Graduate graduate : graduateList) {
-			if (graduate.getProgramID() == programID graduate.getYearGraduated() == year) {
+			if (graduate.getProgramID() == programID && graduate.getYearGraduated() == year) {
 				list.add(graduate);
 			}
 		}
