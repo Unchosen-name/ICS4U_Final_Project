@@ -112,7 +112,8 @@
 		      //executes the choice number				
 		      switch (choice){
 		         case 1:
-		            //call Q&A menu            
+		            	QNAStudent.initQNA();
+				QNAStudent.displayMenu();
 		         	break;
 		         	
 		    	   case 2:
