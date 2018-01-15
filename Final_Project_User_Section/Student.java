@@ -28,7 +28,7 @@
 		 }
 		 
 		 //accessors
-		 public String getfirstName(){
+		 public String getFirstName(){
 		 	return firstName;
 		 }
 		 
@@ -77,21 +77,39 @@
 		 	acceptedToUni = b;
 		 }
 		 
-		 
+		 public boolean setPassword (String oldPass, String newPass) {
+		 	if (oldPass.equals(password)) {
+		 		password = newPass;
+		 		return true;
+		 	}
+		 	return false;
+		 }
+
+		 public boolean setUsername (String oldPass, String newUsername) {
+		 	if (oldPass.equals(password)) {
+		 		username = newUsername;
+		 		return true;
+		 	}
+		 	return false;
+		 }
 		 
 		 //student update mark
 		 public boolean updateMark(String course_name, double mark){
-		 	courseTracker.udpatemark(course_name, mark);
+		 	if (mark >= 0 && courseTracker.courseExists(course_name)) {
+		 		courseTracker.updateMark(course_name, mark);
+		 		return true;
+		 	}
+		 	return false;
 		 }
 		 
-   	//displays the menu for admin users
+   		//displays the menu for admin users
        public void displayMenu(){
         	Scanner sc = new Scanner(System.in);
          int choice;
 			boolean keepOnGoing = true;
       
      		while(keepOnGoing){
-	      //display Menu
+	      	//display Menu
 	         try{
 	            BufferedReader in = new BufferedReader(new FileReader(MENU));
 	            String st = in.readLine();
