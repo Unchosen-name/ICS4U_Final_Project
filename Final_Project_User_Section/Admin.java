@@ -79,8 +79,11 @@
 						//MORE IMPLEMENTATION
 						System.out.println("Execute updateMark Method");
 						
-					
-					case 4: 
+                    case 4:
+                        //add program
+                        break;
+                      
+					case 5: 
 						keepOnGoing = false;
 						break;
 							
