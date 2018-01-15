@@ -34,6 +34,13 @@ public class CourseTracker {
 		return false;
 	}
 
+	public boolean courseExists (String courseCode) {
+		if (findByCourseCode(courseCode) != null) {
+			return true;
+		}
+		return false;
+	}
+
 	private ActiveCourse findByCourseCode (String courseCode) {
 		for (ActiveCourse course : courseList) {
 			if (course.getCourseCode().equals(courseCode)) {
