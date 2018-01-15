@@ -115,7 +115,7 @@ public class QNAAdmin extends QNAPage
       } while (option != EXIT);              // menu will be displayed over and over until user decides to exit 
    } // displayMenu method
    
-   public static void browseCategory ()                                          // method to browse unanswered questions by category
+   private static void browseCategory ()                                          // method to browse unanswered questions by category
    {
       int category = INITIAL;                                                    // initialize int representing desired category (will be given useful value in a try structure)
       ArrayList<Integer> possibleIds = new ArrayList<Integer>();                 // array list containing ids for a chosen category, will be useful when checking valid input for ids later
@@ -182,7 +182,7 @@ public class QNAAdmin extends QNAPage
     	} while (category != EXIT);                                                // this process if looped until admin no longer wants to browse questions by category
    } // browseCategory method
    
-   public static void browseUnanswered()        // this method allows admin to browse all unanswered questions
+   private static void browseUnanswered()        // this method allows admin to browse all unanswered questions
    {
 		boolean exit;                             // declare a boolean variable representing whether admin wishes to exit this page
       do
@@ -204,7 +204,7 @@ public class QNAAdmin extends QNAPage
       } while (!exit);                          // exit this page only when user enters the exit number
    } // browseUnanswered method
   
-   public static void savingPrompt()            // this method prompts admin to save progress
+   private static void savingPrompt()            // this method prompts admin to save progress
    {     
       sc.nextLine();                            
       final String SAVE = "1";                  // constant to check whether user wants to save
@@ -218,7 +218,7 @@ public class QNAAdmin extends QNAPage
       }
    } // savingPrompt method
    
-   public static void save()                    // this method saves admin's progress in answering or deleting questions
+   private static void save()                    // this method saves admin's progress in answering or deleting questions
    {
       try
       {
@@ -260,7 +260,7 @@ public class QNAAdmin extends QNAPage
       }
    } // save method
    
-   public static void answerPrompt (ArrayList<Integer> possibleIds)  // this method prompts admin to answer question when browing 
+   private static void answerPrompt (ArrayList<Integer> possibleIds)  // this method prompts admin to answer question when browing 
    {																 // parametre: an array list of ids of possible questions to be selected
       int id = INITIAL;                                              // initialize id representing user's choice of question to answer
       do
@@ -359,7 +359,7 @@ public class QNAAdmin extends QNAPage
       } while (id != EXIT);                                       // don't exit until exit number is entered
    } // answerPrompt method
 
-   public static void answerPrompt ()                             // this method prompts admin to answer question when browing all unanswered questions
+   private static void answerPrompt ()                             // this method prompts admin to answer question when browing all unanswered questions
    {
       int id = INITIAL;                                           // initialize id of question (useful value given in try structure)
       do
@@ -407,7 +407,7 @@ public class QNAAdmin extends QNAPage
       } while (id != EXIT);                                       // this process is repeated until id is set to be equal to exit number
    } // answerPrompt method
       
-   public static boolean answerQ (int id)                         // this method takes admin through the process of answering a chosen question
+   private static boolean answerQ (int id)                         // this method takes admin through the process of answering a chosen question
    {															  // parametre: id of chosen question
    																  // returns: a boolean indicating whether question is successfully answered
       for (int i = 0; i < numUQs; i ++)                           // go through the number of unanswered questions
@@ -660,7 +660,7 @@ public class QNAAdmin extends QNAPage
       return false;
    } // deleteQ method
    
-   public static void addCategory ()            // this method helps admin add new categories to the array list of categories, and write new info to file            
+   private static void addCategory ()            // this method helps admin add new categories to the array list of categories, and write new info to file            
    {
       String newCategory;                       // declare a new variable called newCategory
 		sc.nextLine();
