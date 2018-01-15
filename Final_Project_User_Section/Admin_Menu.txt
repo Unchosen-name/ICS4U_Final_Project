@@ -1,0 +1,6 @@
+AdminMenu:
+
+1. View Q&A
+2. View Programs
+3. Update Student Mark
+4. Log Out
