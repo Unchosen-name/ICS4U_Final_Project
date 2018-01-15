@@ -32,7 +32,8 @@
 		      //executes the choice number				
 		      switch (choice){
 		         case 1:
-		            //call inactive Q&A display            
+		            	QNAGuest.initQNA();
+				QNAGuest.displayMenu();
 		         	break;
 		         	
 		    	   case 2:
