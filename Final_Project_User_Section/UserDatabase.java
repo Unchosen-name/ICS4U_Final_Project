@@ -156,6 +156,7 @@ public class UserDatabase{
 
 	}
 
+	//adds a student object to the arraylist of students. Return true if succesfully added.
 	public boolean addStudent (Student student) {
 		if (checkUniqueStudent(student)) {
 			studentTracker.add(student);
@@ -164,6 +165,7 @@ public class UserDatabase{
 		return false;
 	}
 
+	//checks if a the student parameter is unique in the list. Checks username password OEN and student number
 	public boolean checkUniqueStudent (Student student) {
 		for (Student curStudent : studentTracker) {
 			if (student.getUsername().equals(curStudent.getUsername()) || student.getStudentNumber.equals(curStudent.getStudentNumber()) || student.getOEN().equals(curStudent.getOEN)) {
@@ -173,6 +175,7 @@ public class UserDatabase{
 		return true;
 	}
 
+	//add an admin to the arraylist of admins. Return true if successfully added
 	public boolean addAdmin (Admin admin) {
 		if (checkUniqueAdmin(admin)) {
 			adminTracker.add(admin);
@@ -181,7 +184,8 @@ public class UserDatabase{
 		return false;
 	}
 
-	public boolean checkUniqueAdmin () {
+	//check to see if the parameter admin is unique in the list of admins. Checking fields include username password and admin number
+	public boolean checkUniqueAdmin (Admin admin) {
 		for (Admin curAdmin : adminTracker) {
 			if (admin.getUsername().equals(curAdmin.getUsername()) || admin.getAdminNumber().equals(curAdmin.getAdminNumber())) {
 				return false;
