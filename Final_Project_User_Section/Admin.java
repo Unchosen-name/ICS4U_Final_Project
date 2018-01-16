@@ -3,42 +3,24 @@
 
 //Guest user class. Extends User
     public class Admin extends User{
-	 
+	
 	 	 private final String MENU = "Admin_Menu.txt";
 		 private String adminNumber;
 		 
 		 //admin constructor. takes in username, password, and admin number as strings
 		 //respectively
-		 public Admin(String u, String p, String adminnum){
-		 	super(u, p);
-			adminNumber = adminnum;
+		 public Admin(String username, String password, String adminNum){
+		 	super(username, password);
+			adminNumber = adminNum;
 		 }
 		 
-		 public String getUsername(){
-		 	return username;
-		 }
-		 
-		 public String getPassword(){
-		 	return password;
-		 }
-		 
-		 public String getAdminNumber(){
+		 public String getAdminNumber () {
 		 	return adminNumber;
 		 }
 		 
-		 public void setUsername(String user){
-		 	username = user;
-		 }
-		 
-		 public void setPassword(String pass){
-		 	password = pass;
-		 }
-		 
-		 public void setAdminNumber(String num){
+		 public void setAdminNumber (String num) {
 		 	adminNumber = num;
 		 }
-		 
-		 
 		 
    	//displays the menu for admin users
        public void displayMenu(){
