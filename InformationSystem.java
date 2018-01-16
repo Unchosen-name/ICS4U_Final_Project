@@ -40,16 +40,16 @@ public void processMenuChoice () {
 			//log in as student
 			break;
 		case 2:
-			//log in as student
+			//log in as admin
 			break;
 		case 3:
-			//log in as student
+			//log in as guest
 			break;
 		case 4:
 			createStudentByStandardInput();
 			break;
 		case 5:
-			//log in as student
+			//register as admin
 			break;
 	}
 }
