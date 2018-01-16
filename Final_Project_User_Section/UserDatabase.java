@@ -156,38 +156,55 @@ public class UserDatabase{
 
 	}
 
-	//adds a student object to the arraylist of students. Return true if succesfully added.
-	public boolean addStudent (Student student) {
-		if (checkUniqueStudent(student)) {
-			studentTracker.add(student);
-			return true;
+	private void createStudentByStandardInput () {
+		System.out.print("Username: ");
+		String username = sc.nextLine();
+		while (!checkStudentUsername(username)) {
+			System.out.println("Username unavailable. Please enter a new one.");
+			System.out.print("Username: ");
+			username = sc.nextLine();
 		}
-		return false;
+		System.out.print("Password: ");
+		String password = sc.nextLine();
+		System.out.print("First Name: ");
+		String firstName = sc.nextLine();
+		System.out.print("Last Name: ");
+		String lastName = sc.nextLine();
+		System.out.print("OEN: ");
+		String oen = sc.nextLine();
+		System.out.print("Student Number: ");
+		String studentNum = sc.nextLine();
+		System.out.print("How many courses are you taking? ");
+		int numCourses = sc.nextInt();
+
+		ArrayList<ActiveCourse> courseList = new ArrayList<>();
+
+		for (int i = 0; i < numCourses; i++) {
+			System.out.print("Course: ");
+			String courseCode = sc.nextLine();
+			System.out.print("Mark: ");
+			int mark = sc.nextInt();
+			courseList.add(new ActiveCourse(courseCode, mark));
+		}
+
+		Student student = new Student(username, password, firstName, lastName, oen, studentNum, new CourseTracker(courseList), false);
+		studentTracker.add(student);
 	}
 
 	//checks if a the student parameter is unique in the list. Checks username password OEN and student number
-	public boolean checkUniqueStudent (Student student) {
+	public boolean checkStudentUsername (String username) {
 		for (Student curStudent : studentTracker) {
-			if (student.getUsername().equals(curStudent.getUsername()) || student.getStudentNumber.equals(curStudent.getStudentNumber()) || student.getOEN().equals(curStudent.getOEN)) {
+			if (username.equals(curStudent.getUsername())) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	//add an admin to the arraylist of admins. Return true if successfully added
-	public boolean addAdmin (Admin admin) {
-		if (checkUniqueAdmin(admin)) {
-			adminTracker.add(admin);
-			return true;
-		}
-		return false;
-	}
-
 	//check to see if the parameter admin is unique in the list of admins. Checking fields include username password and admin number
-	public boolean checkUniqueAdmin (Admin admin) {
+	public boolean checkAdminUsername (String username) {
 		for (Admin curAdmin : adminTracker) {
-			if (admin.getUsername().equals(curAdmin.getUsername()) || admin.getAdminNumber().equals(curAdmin.getAdminNumber())) {
+			if (username.equals(curAdmin.getUsername())) {
 				return false;
 			}
 		}
