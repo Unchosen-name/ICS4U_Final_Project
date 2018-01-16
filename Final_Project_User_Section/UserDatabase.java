@@ -156,7 +156,7 @@ public class UserDatabase{
 
 	}
 
-	private void createStudentByStandardInput () {
+	public void createStudentByStandardInput () {
 		System.out.print("Username: ");
 		String username = sc.nextLine();
 		while (!checkStudentUsername(username)) {
@@ -199,6 +199,23 @@ public class UserDatabase{
 			}
 		}
 		return true;
+	}
+	
+	public void createAdminByStandardInput () {
+		System.out.print("Username: ");
+		String username = sc.nextLine();
+		while (!checkAdminUsername(username)) {
+			System.out.println("Username unavailable. Please enter a new one.");
+			System.out.print("Username: ");
+			username = sc.nextLine();
+		}
+		System.out.print("Password: ");
+		String password = sc.nextLine();
+		System.out.print("Admin Number: ");
+		String adminNumber = sc.nextLine();
+
+		Admin admin = new Admin(username, password, adminNumber);
+		adminTracker.add(admin);
 	}
 
 	//check to see if the parameter admin is unique in the list of admins. Checking fields include username password and admin number
