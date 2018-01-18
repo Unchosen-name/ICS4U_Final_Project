@@ -7,10 +7,20 @@ import java.util.ArrayList;
 import java.io.*;
 
 public class CourseTracker {
+	private static final String[] AVAILABLE_COURSES = {"ENG4U", "SPH4U", "SCH4U", "SBI4U", "MHF4U", "MCV4U"};
 	private ArrayList<ActiveCourse> courseList;
 
 	public CourseTracker (ArrayList<ActiveCourse> courseList) {
 		this.courseList = courseList;
+	}
+
+	public static boolean isValidCourse (String course) {
+		for (String availableCourse : AVAILABLE_COURSES) {
+			if (availableCourse.equals(course)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public ArrayList<ActiveCourse> getCourseList () {
