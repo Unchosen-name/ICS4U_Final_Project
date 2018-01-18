@@ -22,11 +22,10 @@ public class PastData
 	
 	public void display()
 	{
-		Scanner sc  = new Scanner (System.in);
 		String input;
 		System.out.print(this);
 		System.out.print("Press any key to return to previous menu.");
-		input = sc.nextLine(); // this outputs all the information of the data of a certain year of a program.
+		input = Method.sc.nextLine(); // this outputs all the information of the data of a certain year of a program.
 	}
 	
 	public boolean checkProgram(int n)

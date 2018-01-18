@@ -6,7 +6,6 @@ public class AdditionalInfo
 	private String scholarship;
 	private String supplementary;
 	private String earlyAdm;
-    Scanner sc = new Scanner (System.in);
    
 	public AdditionalInfo(String sc, String su, String e)
 	{
@@ -17,20 +16,19 @@ public class AdditionalInfo
    public AdditionalInfo()
 	{
       System.out.print ("Enter scholarship options: ");
-      scholarship=sc.nextLine();
+      scholarship=Method.sc.nextLine();
       System.out.print ("Enter supplementary requirement: ");
-      supplementary=sc.nextLine();
+      supplementary=Method.sc.nextLine();
       System.out.print ("Enter early admission information: ");
-      earlyAdm=sc.nextLine();
+      earlyAdm=Method.sc.nextLine();
 
 	}
 	public void display()
 	{
-		Scanner sc  = new Scanner (System.in);
 		String input;
 		System.out.print(this);
 		System.out.print("Press any key to return to previous menu.");
-		input = sc.nextLine(); 
+		input = Method.sc.nextLine(); 
 	}
 	
 	public String toString ()
