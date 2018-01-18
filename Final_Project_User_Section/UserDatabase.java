@@ -1,34 +1,36 @@
+/**
+* UserDatabase.java
+* Responsible for managing all users.
+*/
+
 import java.util.*;
 import java.io.*;
 
-//Guest user class. Extends User
 public class UserDatabase{
-
 	private static final String ADMINFILE = "Admin_List.txt";
 	private static final String STUDENTFILE = "Student_List.txt"; 
-
+	private static final Guest GUEST = new Guest();
 
 	private ArrayList<Admin> adminTracker;
 	private ArrayList<Student> studentTracker;
 
-	//default constructors
-	public UserDatabase(){
-
+	public UserDatabase () {
 		adminTracker = new ArrayList<Admin>();
 		studentTracker = new ArrayList<Student>();
 		loadAdminList();
 		loadStudentList();
 	}
 
-	//load admin list from file
-	public void loadAdminList(){
-		try{
+	public static Guest getGuest() {
+		return GUEST;
+	}
+
+	public void loadAdminList () {
+		try {
 			BufferedReader in = new BufferedReader(new FileReader(ADMINFILE));
 
-			String st = in.readLine();
-			int num = Integer.parseInt(st);
-
-			for(int i=0; i<num; i++){
+			int numAdmins = Integer.parseInt(in.readLine());
+			for(int i = 0; i < numAdmins; i++){
 				in.readLine();
 				Admin admin = new Admin(in.readLine(), in.readLine(), in.readLine());
 				adminTracker.add(admin);
@@ -43,7 +45,6 @@ public class UserDatabase{
 		}
 	}
 
-	//load staff list from file
 	public void loadStudentList(){
 
 		try{
@@ -152,43 +153,14 @@ public class UserDatabase{
 		catch(IOException iox){
 			System.out.println("Error writing to file");
 		}
-
-
 	}
 
-	public void createStudentByStandardInput () {
-		System.out.print("Username: ");
-		String username = sc.nextLine();
-		while (!checkStudentUsername(username)) {
-			System.out.println("Username unavailable. Please enter a new one.");
-			System.out.print("Username: ");
-			username = sc.nextLine();
-		}
-		System.out.print("Password: ");
-		String password = sc.nextLine();
-		System.out.print("First Name: ");
-		String firstName = sc.nextLine();
-		System.out.print("Last Name: ");
-		String lastName = sc.nextLine();
-		System.out.print("OEN: ");
-		String oen = sc.nextLine();
-		System.out.print("Student Number: ");
-		String studentNum = sc.nextLine();
-		System.out.print("How many courses are you taking? ");
-		int numCourses = sc.nextInt();
-
-		ArrayList<ActiveCourse> courseList = new ArrayList<>();
-
-		for (int i = 0; i < numCourses; i++) {
-			System.out.print("Course: ");
-			String courseCode = sc.nextLine();
-			System.out.print("Mark: ");
-			int mark = sc.nextInt();
-			courseList.add(new ActiveCourse(courseCode, mark));
-		}
-
-		Student student = new Student(username, password, firstName, lastName, oen, studentNum, new CourseTracker(courseList), false);
+	public void addStudent (Student student) {
 		studentTracker.add(student);
+	}
+
+	public void addAdmin (Admin admin) {
+		adminTracker.add(admin);
 	}
 
 	//checks if a the student parameter is unique in the list. Checks username password OEN and student number
@@ -199,23 +171,6 @@ public class UserDatabase{
 			}
 		}
 		return true;
-	}
-	
-	public void createAdminByStandardInput () {
-		System.out.print("Username: ");
-		String username = sc.nextLine();
-		while (!checkAdminUsername(username)) {
-			System.out.println("Username unavailable. Please enter a new one.");
-			System.out.print("Username: ");
-			username = sc.nextLine();
-		}
-		System.out.print("Password: ");
-		String password = sc.nextLine();
-		System.out.print("Admin Number: ");
-		String adminNumber = sc.nextLine();
-
-		Admin admin = new Admin(username, password, adminNumber);
-		adminTracker.add(admin);
 	}
 
 	//check to see if the parameter admin is unique in the list of admins. Checking fields include username password and admin number
@@ -288,25 +243,21 @@ public class UserDatabase{
 		}
 	}
 
-	//Search for a user given type of user, the username, password.
-	public User searchUser(String type, String user, String pass){
-		if(type.equals("Admin")){
-			for(Admin admin: adminTracker){
-				if(admin.getUsername().equals(user) && admin.getPassword().equals(pass)){
-					return admin;
-				}
+	public Student searchStudent (String user, String password) {
+		for(Student student: studentTracker){
+			if(student.getUsername().equals(user) && student.getPassword().equals(password)){
+				return student;
 			}
-			return null;
 		}
-		else{
-			for(Student student: studentTracker){
-				if(student.getUsername().equals(user) && student.getPassword().equals(pass)){
-					return student;
-				}
-			}
-			return null;
-		}
+		return null;
 	}
 
-
+	public Admin searchAdmin (String user, String password) {
+		for(Admin admin: adminTracker){
+			if(admin.getUsername().equals(user) && admin.getPassword().equals(password)){
+				return admin;
+			}
+		}
+		return null;
+	}
 }
