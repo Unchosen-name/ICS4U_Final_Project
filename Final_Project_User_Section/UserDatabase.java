@@ -7,8 +7,8 @@ import java.util.*;
 import java.io.*;
 
 public class UserDatabase{
-	private static final String ADMINFILE = "Admin_List.txt";
-	private static final String STUDENTFILE = "Student_List.txt"; 
+	private static final String ADMINFILE = "admin_list.txt";
+	private static final String STUDENTFILE = "student_list.txt"; 
 	private static final Guest GUEST = new Guest();
 
 	private ArrayList<Admin> adminTracker;
@@ -30,28 +30,28 @@ public class UserDatabase{
 			BufferedReader in = new BufferedReader(new FileReader(ADMINFILE));
 
 			int numAdmins = Integer.parseInt(in.readLine());
+
 			for(int i = 0; i < numAdmins; i++){
 				in.readLine();
-				Admin admin = new Admin(in.readLine(), in.readLine(), in.readLine());
+				Admin admin = new Admin(in.readLine(), in.readLine(), in.readLine(), studentTracker);
 				adminTracker.add(admin);
 			}
+
 			in.close();
 		}
 		catch(IOException iox){
-			System.out.println("Error reading from file");
+			System.out.println("Error reading admin list from file.");
 		}
 		catch(NumberFormatException nfe){
-			System.out.println("Error converting from string to integer");
+			System.out.println("Error converting from string to integer (while loading admin list).");
 		}
 	}
 
 	public void loadStudentList(){
-
-		try{
+		try {
 			BufferedReader in = new BufferedReader(new FileReader(STUDENTFILE));
 
-			String st = in.readLine();
-			int num = Integer.parseInt(st);
+			int num = Integer.parseInt(in.readLine());
 
 			for(int i=0; i<num; i++){
 				in.readLine();
@@ -82,7 +82,7 @@ public class UserDatabase{
 			System.out.println("Error reading from file");
 		}
 		catch(NumberFormatException nfe){
-			System.out.println("Error converting from string to integer");
+			System.out.println("Error converting from string to integer (user database - load student list)");
 		}
 
 	}
@@ -92,7 +92,7 @@ public class UserDatabase{
 		try{
 			BufferedWriter out = new BufferedWriter(new FileWriter(ADMINFILE));
 
-			out.write(adminTracker.size());
+			out.write(adminTracker.size() + "");
 			out.newLine();
 
 			for(Admin admin : adminTracker) {
@@ -118,7 +118,7 @@ public class UserDatabase{
 		try{
 			BufferedWriter out = new BufferedWriter(new FileWriter(STUDENTFILE));
 
-			out.write(studentTracker.size());
+			out.write(studentTracker.size() + "");
 			out.newLine();
 
 			for(Student stu : studentTracker) {
@@ -135,6 +135,9 @@ public class UserDatabase{
 				out.write(stu.getOEN());
 				out.newLine();
 				out.write(stu.getStudentNumber());
+				out.newLine();
+
+				out.write(stu.getCourseTracker().getCourseList().size() + "");
 				out.newLine();
 
 				for(ActiveCourse course : stu.getCourseTracker().getCourseList()){
@@ -157,10 +160,13 @@ public class UserDatabase{
 
 	public void addStudent (Student student) {
 		studentTracker.add(student);
+		saveStudentList();
 	}
 
-	public void addAdmin (Admin admin) {
+	public void addAdmin (String username, String password, String adminNumber) {
+		Admin admin = new Admin(username, password, adminNumber, studentTracker);
 		adminTracker.add(admin);
+		saveAdminList();
 	}
 
 	//checks if a the student parameter is unique in the list. Checks username password OEN and student number
@@ -187,10 +193,12 @@ public class UserDatabase{
 	public boolean delete(User person){
 		if(person instanceof Admin){
 			adminTracker.remove((Admin)person);
+			saveAdminList();
 			return true;
 		}
 		else if(person instanceof Student){
 			studentTracker.remove((Student)person);
+			saveStudentList();
 			return true;
 		}
 
@@ -204,6 +212,7 @@ public class UserDatabase{
 			for(Admin admin: adminTracker){
 				if(admin.getUsername().equals(user) && admin.getPassword().equals(oldpass)){
 					admin.setPassword(newpass);
+					saveAdminList();
 					return true;
 				}
 			}
@@ -213,6 +222,7 @@ public class UserDatabase{
 			for(Student student: studentTracker){
 				if(student.getUsername().equals(user) && student.getPassword().equals(oldpass)){
 					student.setPassword(oldpass, newpass);
+					saveStudentList();
 					return true;
 				}
 			}
@@ -227,6 +237,7 @@ public class UserDatabase{
 			for(Admin admin: adminTracker){
 				if(admin.getUsername().equals(user) && admin.getPassword().equals(oldpass)){
 					admin.setUsername(newuser);
+					saveAdminList();
 					return true;
 				}
 			}
@@ -236,6 +247,7 @@ public class UserDatabase{
 			for(Student student: studentTracker){
 				if(student.getUsername().equals(user) && student.getPassword().equals(oldpass)){
 					student.setUsername(oldpass, newuser);
+					saveStudentList();
 					return true;
 				}
 			}
@@ -243,7 +255,16 @@ public class UserDatabase{
 		}
 	}
 
-	public Student searchStudent (String user, String password) {
+	public Student searchStudentByOEN (String OEN) {
+		for(Student student: studentTracker){
+			if(student.getOEN().equals(OEN)){
+				return student;
+			}
+		}
+		return null;	
+	}
+
+	public Student searchStudentByLoginInfo (String user, String password) {
 		for(Student student: studentTracker){
 			if(student.getUsername().equals(user) && student.getPassword().equals(password)){
 				return student;
@@ -252,7 +273,7 @@ public class UserDatabase{
 		return null;
 	}
 
-	public Admin searchAdmin (String user, String password) {
+	public Admin searchAdminByLoginInfo (String user, String password) {
 		for(Admin admin: adminTracker){
 			if(admin.getUsername().equals(user) && admin.getPassword().equals(password)){
 				return admin;
