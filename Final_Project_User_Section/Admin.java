@@ -6,7 +6,7 @@
 	
 	 	 private final String MENU = "Admin_Menu.txt";
 		 private String adminNumber;
-		 
+	    	 		 
 		 //admin constructor. takes in username, password, and admin number as strings
 		 //respectively
 		 public Admin(String username, String password, String adminNum){
