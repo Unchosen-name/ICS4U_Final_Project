@@ -24,6 +24,7 @@ public class InformationSystem {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(MENU_FILE));
 			numMenuOptions = Integer.parseInt(in.readLine());
+			in.readLine();
 			menuOptions = new String[numMenuOptions];
 			for (int i = 0; i < numMenuOptions; i++) {
 				menuOptions[i] = in.readLine();
@@ -42,6 +43,8 @@ public class InformationSystem {
 			}
 			processMenuChoice();
 		} while (!endProgram);
+		users.saveAdminList();
+		users.saveStudentList();
 	}
 
 	public void processMenuChoice () {
@@ -72,16 +75,16 @@ public class InformationSystem {
 				createStudentAccount();
 				break;
 			case 5:
-				createAdminAccount();
-				break;
-			case 6:
 				endProgram = true;
 				break;
 		}
 
 		if (currentUser != null) {
 			currentUser.displayMenu();
+			currentUser = null;
 		}
+
+		choice = -1;
 	}
 
 	public void logInStudent () {
@@ -199,6 +202,7 @@ public class InformationSystem {
 		displayMenu();
 	}
 
+	/*
 	public void createAdminAccount () {
 		System.out.println("\nAdmin Login");
 
@@ -214,12 +218,11 @@ public class InformationSystem {
 		System.out.print("Admin Number: ");
 		String adminNumber = sc.nextLine();
 
-		Admin admin = new Admin(username, password, adminNumber);
-		users.addAdmin(admin);
+		users.addAdmin(username, password, adminNumber);
 
 		System.out.println("Registration successful.");
 		displayMenu();
-	}
+	}*/
 
 	public static void main (String[] args) {
 		InformationSystem is = new InformationSystem();
