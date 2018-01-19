@@ -9,11 +9,13 @@ public class InformationSystem {
 	private String[] menuOptions;
 	private int numMenuOptions;
 	private Scanner sc;
+	private boolean endProgram;
 
 	public InformationSystem(){
 		users = new UserDatabase();
 		//programs = new ProgramDatabase();
 		sc = new Scanner(System.in);
+		endProgram = false;
 		loadMenu();
 		displayMenu();
 	}
@@ -33,10 +35,13 @@ public class InformationSystem {
 	}
 
 	public void displayMenu () {
-		for (int i = 0; i < numMenuOptions; i++) {
-			System.out.println(menuOptions[i]);
-		}
-		processMenuChoice();
+		do {
+			System.out.println("\nInformation System");
+			for (int i = 0; i < numMenuOptions; i++) {
+				System.out.println(menuOptions[i]);
+			}
+			processMenuChoice();
+		} while (!endProgram);
 	}
 
 	public void processMenuChoice () {
@@ -44,12 +49,12 @@ public class InformationSystem {
 
 		do {
 			try {
-				System.out.println("Enter your choice: ");
+				System.out.print("Enter your choice: ");
 				choice = sc.nextInt();
 				sc.nextLine();
 			} catch (InputMismatchException ime) {
 				sc.nextLine();
-				System.out.println("Invalid input.");
+				System.out.print("Invalid input. ");
 			}
 		} while (!(choice > 0 && choice <= numMenuOptions));
 
@@ -69,6 +74,9 @@ public class InformationSystem {
 			case 5:
 				createAdminAccount();
 				break;
+			case 6:
+				endProgram = true;
+				break;
 		}
 
 		if (currentUser != null) {
@@ -79,45 +87,51 @@ public class InformationSystem {
 	public void logInStudent () {
 		String username, password;
 
-		System.out.println("Username: ");
+		System.out.println("\nStudent Login");
+
+		System.out.print("Username: ");
 		username = sc.nextLine();
-		System.out.println("Password:" );
+		System.out.print("Password: ");
 		password = sc.nextLine();
 
-		while (users.searchStudent(username, password) == null) {
+		while (users.searchStudentByLoginInfo(username, password) == null) {
 			System.out.println("Invalid username or password!");
-			System.out.println("Username: ");
+			System.out.print("Username: ");
 			username = sc.nextLine();
-			System.out.println("Password:" );
+			System.out.print("Password: ");
 			password = sc.nextLine();
 		}
 
-		currentUser = users.searchStudent(username, password);
+		currentUser = users.searchStudentByLoginInfo(username, password);
 	}
 
 
 	public void logInAdmin () {
 		String username, password;
 
-		System.out.println("Username: ");
+		System.out.println("\nAdmin Login");
+
+		System.out.print("Username: ");
 		username = sc.nextLine();
-		System.out.println("Password:" );
+		System.out.print("Password: ");
 		password = sc.nextLine();
 
-		while (users.searchAdmin(username, password) == null) {
+		while (users.searchAdminByLoginInfo(username, password) == null) {
 			System.out.println("Invalid username or password!");
-			System.out.println("Username: ");
+			System.out.print("Usernasme: ");
 			username = sc.nextLine();
-			System.out.println("Password:" );
+			System.out.print("Password: ");
 			password = sc.nextLine();
 		}
 
-		currentUser = users.searchAdmin(username, password);
+		currentUser = users.searchAdminByLoginInfo(username, password);
 	}
 
 	public void createStudentAccount () {
 		String username, password, firstName, lastName, oen, studentNum;
 		int numCourses = 0;
+
+		System.out.println("\nStudent Registration");
 
 		System.out.print("Username: ");
 		username = sc.nextLine();
@@ -186,6 +200,8 @@ public class InformationSystem {
 	}
 
 	public void createAdminAccount () {
+		System.out.println("\nAdmin Login");
+
 		System.out.print("Username: ");
 		String username = sc.nextLine();
 		while (!users.checkAdminUsername(username)) {
