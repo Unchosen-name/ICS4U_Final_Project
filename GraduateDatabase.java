@@ -13,7 +13,7 @@ import java.io.*;
 public class GraduateDatabase {
 	private final String GRADUATE_FILE = "graduates.txt";
 	private static final int NUM_COURSES = 6;
-	private static final int MAX_YEARS_FROM_GRAD = 10;
+	private static final int MAX_YEARS_FROM_GRAD = 5;
 	private ArrayList<Graduate> graduateList;
 	private int currentYear;
 
