@@ -1,6 +1,6 @@
 Things left to add:
 
-Sorting ArrayList
+Sorting ArrayList (completed)
 Delete Program
 User manual enter new program and past data
 Save file
