@@ -1,7 +1,8 @@
 AdminMenu:
 
 1. View Q&A
-2. View Programs
+2. Search Programs
 3. Update Student Mark
 4. Add Program
-5. Log Out
+5. Delete Program
+6. Log Out
