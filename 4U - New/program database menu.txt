@@ -1,0 +1,6 @@
+Search by OUAC code
+Search by university
+Search by major
+Search by program name
+Search by admission average
+Return to previous list

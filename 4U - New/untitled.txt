@@ -1,0 +1,8 @@
+Things left to add:
+
+Sorting ArrayList
+Delete Program
+User manual enter new program and past data
+Save file
+
+But this section should run after sorting ArrayList is resolved
