@@ -28,7 +28,7 @@ public class Guest extends User{
 		}
 	}
 
-	public void displayMenu(){
+	public void displayMainMenu(){
 		Scanner sc = new Scanner(System.in);
 		int choice = 0;
 		boolean keepOnGoing = true;
