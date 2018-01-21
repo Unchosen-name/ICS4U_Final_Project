@@ -48,6 +48,6 @@ public abstract class User{
 		return false;
 	}
 	
-	public abstract void displayMenu();
+	public abstract void displayMainMenu();
 	
 }
