@@ -160,14 +160,8 @@ public class UserDatabase {
 		saveStudentList();
 	}
 
-	public void addAdmin (String username, String password, String adminNumber) {
-		Admin admin = new Admin(username, password, adminNumber, studentTracker, programDatabase);
-		adminTracker.add(admin);
-		saveAdminList();
-	}
-
 	//checks if a the student parameter is unique in the list. Checks username password OEN and student number
-	public boolean checkStudentUsername (String username) {
+	public boolean checkStudentUsernameAvailability (String username) {
 		for (Student curStudent : studentTracker) {
 			if (username.equals(curStudent.getUsername())) {
 				return false;
@@ -177,7 +171,7 @@ public class UserDatabase {
 	}
 
 	//check to see if the parameter admin is unique in the list of admins. Checking fields include username password and admin number
-	public boolean checkAdminUsername (String username) {
+	public boolean checkAdminUsernameAvailability (String username) {
 		for (Admin curAdmin : adminTracker) {
 			if (username.equals(curAdmin.getUsername())) {
 				return false;
@@ -186,70 +180,13 @@ public class UserDatabase {
 		return true;
 	}
 
-	//delete method
-	public boolean delete(User person){
-		if(person instanceof Admin){
-			adminTracker.remove((Admin)person);
-			saveAdminList();
+	public boolean deleteStudent (String OEN) {
+		Student student = searchStudentByOEN(OEN);
+		if (student != null) {
+			studentTracker.remove(student);
 			return true;
 		}
-		else if(person instanceof Student){
-			studentTracker.remove((Student)person);
-			saveStudentList();
-			return true;
-		}
-
 		return false;
-	}
-
-	//update the password, takes in the type of user, username old password and new password
-	//only updates if the user is found and old password match
-	public boolean updatePassword(String type, String user, String oldpass, String newpass){
-		if(type.equals("Admin")){
-			for(Admin admin: adminTracker){
-				if(admin.getUsername().equals(user) && admin.getPassword().equals(oldpass)){
-					admin.setPassword(newpass);
-					saveAdminList();
-					return true;
-				}
-			}
-			return false;
-		}
-		else{
-			for(Student student: studentTracker){
-				if(student.getUsername().equals(user) && student.getPassword().equals(oldpass)){
-					student.setPassword(oldpass, newpass);
-					saveStudentList();
-					return true;
-				}
-			}
-			return false;
-		}
-	}
-
-	//update the username, takes in the type of user, username old password and new username
-	//only updates if the user is found and old password match
-	public boolean updateUsername(String type, String user, String oldpass, String newuser){
-		if(type.equals("Admin")){
-			for(Admin admin: adminTracker){
-				if(admin.getUsername().equals(user) && admin.getPassword().equals(oldpass)){
-					admin.setUsername(newuser);
-					saveAdminList();
-					return true;
-				}
-			}
-			return false;
-		}
-		else{
-			for(Student student: studentTracker){
-				if(student.getUsername().equals(user) && student.getPassword().equals(oldpass)){
-					student.setUsername(oldpass, newuser);
-					saveStudentList();
-					return true;
-				}
-			}
-			return false;
-		}
 	}
 
 	public Student searchStudentByOEN (String OEN) {
