@@ -11,7 +11,7 @@ import java.io.*;
 
 public class QNAGuest extends QNAPage
 {
-	private static final String MENU = "Guest Menu.txt";  // file name for guest menu options
+	private static final String MENU = "QNA Guest Menu.txt";  // file name for guest menu options
 
 	public static void initQNA ()                         // this method initializes all fields and array lists for guests
 	{
@@ -41,6 +41,7 @@ public class QNAGuest extends QNAPage
       int option = INITIAL;                                                // initialize option (useful value inputted in try strcture)
       do
       {
+      	System.out.println("\n--- Guest Q&A Menu ---");
          for (int i = 0; i < numMenuOptions; i ++)                
          {
             System.out.println (menu.get(i));                              // first print all menu options
@@ -68,7 +69,6 @@ public class QNAGuest extends QNAPage
                sc.nextLine();
 				}
 			} 
-			System.out.println ();
 			
          switch (option)                     // once option number is valid, enter the switch structure
          {
