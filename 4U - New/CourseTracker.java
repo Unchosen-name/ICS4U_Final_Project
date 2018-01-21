@@ -7,33 +7,36 @@ import java.util.ArrayList;
 import java.io.*;
 
 public class CourseTracker {
-	private static final String[] AVAILABLE_COURSES = {"ENG4U", "SPH4U", "SCH4U", "SBI4U", "MHF4U", "MCV4U"};
+	public static final int MAX_COURSES = 8;
+	private static final String[] AVAILABLE_COURSES = {"ENG4U", "SPH4U", "SCH4U", "SBI4U", "MHF4U", "MCV4U", "ICS4U", "MDM4U"};
 	private ArrayList<ActiveCourse> courseList;
 
 	public CourseTracker (ArrayList<ActiveCourse> courseList) {
 		this.courseList = courseList;
 	}
 
-	public static boolean isValidCourse (String course) {
+	public ArrayList<ActiveCourse> getCourseList () {
+		return courseList;
+	}
+
+	public int getNumCourses () {
+		return courseList.size();
+	}
+
+	public static boolean isValidCourse (String courseCode) {
+		courseCode = courseCode.toUpperCase();
 		for (String availableCourse : AVAILABLE_COURSES) {
-			if (availableCourse.equals(course)) {
+			if (availableCourse.equals(courseCode)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public ArrayList<ActiveCourse> getCourseList () {
-		return courseList;
-	}
-
-	public boolean addCourse (ActiveCourse course) {
-		String courseCode = course.getCourseCode();
-		if (findByCourseCode(courseCode) == null) {
+	public void addCourse (ActiveCourse course) {
+		if (courseList.size() < MAX_COURSES && findByCourseCode(course.getCourseCode()) == null) {
 			courseList.add(course);
-			return true;
 		}
-		return false;
 	}
 
 	public boolean updateMark (String courseCode, double newMark) {
@@ -53,7 +56,7 @@ public class CourseTracker {
 
 	private ActiveCourse findByCourseCode (String courseCode) {
 		for (ActiveCourse course : courseList) {
-			if (course.getCourseCode().equals(courseCode)) {
+			if (course.getCourseCode().equalsIgnoreCase(courseCode)) {
 				return course;
 			}
 		}
@@ -90,5 +93,9 @@ public class CourseTracker {
 			return true;
 		}
 		return false;
+	}
+
+	public void dropCourse (ActiveCourse course) {
+		courseList.remove(course);
 	}
 }
