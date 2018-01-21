@@ -60,6 +60,7 @@ public class QNAPage
    {
    	int exit = INITIAL;                                                              // declare a variable exit, initialize it since its value will be given in
                                                                                        // a try structure
+      System.out.println("\n--- Q&A List ---");
       for (int i = 0; i < numQs; i ++)                                                 // print every anwered Q&As 
       {
          System.out.println (answeredQNAs.get(i));
@@ -86,8 +87,7 @@ public class QNAPage
 				System.out.print ("Invalid input, enter again: ");
             sc.nextLine();
 			}
-		} 
-		System.out.println ();                                                      
+		}
    } // displayList method
 
    public static void searchKeyWord ()                                                          // method to search up questions by entering keywords
@@ -97,6 +97,7 @@ public class QNAPage
 		
    	do 
    	{
+         System.out.println("\n--- Search By Keyword ---");
 			boolean found = false;                                                                 // boolean variable to store whether keyword is found
    		System.out.println ("Enter keyword (\"" + EXIT + "\" to return to previous menu): ");
    		word = sc.nextLine();                                                               
@@ -120,8 +121,7 @@ public class QNAPage
 			{
 				System.out.println ("Keyword not found.");                                       	// output a message saying keyword was not found
 			}
-         
-         System.out.println ();
+
    	} while (!word.equals(EXITSTR));                                                          // don't exit the loop until user enters the exit number
    } // searchKeyWord method
    
@@ -130,6 +130,7 @@ public class QNAPage
       int category = INITIAL;                                                                   // category is represented by ints and useful values will be given in try structure, we need to initialize it
    	do
    	{
+         System.out.println("\n--- Search By Category ---");
          for (int i = 0; i < numCategory; i ++)                                                          
          {
             System.out.print (i+1+". ");                                                        // print each category and the number representing it
@@ -158,7 +159,6 @@ public class QNAPage
                sc.nextLine();
 				}
 			}
-			System.out.println ();
 			
          if (category != EXIT)                                                                  // if user doesn't intend to exit
          {
@@ -171,9 +171,9 @@ public class QNAPage
                String tempC = temp.getCategory ();                                              // to get the category of each QNA object
                if (chosen.equals(tempC))                                                        // if the category matches what user wants
                {
+                  System.out.println (); 
                   System.out.println (temp);                                                    // print the entire Q&A to view
-                  found = true;   
-						System.out.println ();                                                        // and set found to true
+                  found = true;                                                                 // and set found to true
                }
             }
             
@@ -189,7 +189,7 @@ public class QNAPage
    public static void categoryList ()                                                  // method to output the list of available categories                                             
    {
    	int exit = INITIAL;                                                              // initialize exit (value will be inputted in a try structure)
-      System.out.println ("Categories:");                                              // go through the categories array list and print each String
+      System.out.println ("\n--- Categories ---");                                     // go through the categories array list and print each String
       for (int i = 0; i < numCategory; i ++)
       {
       System.out.println (categories.get(i));
@@ -217,6 +217,5 @@ public class QNAPage
             sc.nextLine();
 			}
       }
-		System.out.println ();
 	}  // categoryList method
 }  // QNAPage class
