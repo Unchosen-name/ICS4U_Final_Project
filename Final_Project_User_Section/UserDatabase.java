@@ -263,7 +263,7 @@ public class UserDatabase {
 
 	public Student searchStudentByLoginInfo (String user, String password) {
 		for(Student student: studentTracker){
-			if(student.getUsername().equals(user) && student.getPassword().equals(password)){
+			if(student.getUsername().equalsIgnoreCase(user) && student.getPassword().equals(password)){
 				return student;
 			}
 		}
@@ -272,7 +272,7 @@ public class UserDatabase {
 
 	public Admin searchAdminByLoginInfo (String user, String password) {
 		for(Admin admin: adminTracker){
-			if(admin.getUsername().equals(user) && admin.getPassword().equals(password)){
+			if(admin.getUsername().equalsIgnoreCase(user) && admin.getPassword().equals(password)){
 				return admin;
 			}
 		}
