@@ -3,8 +3,9 @@ import java.util.*;
 
 public class InformationSystem {
 	private static String MENU_FILE = "main_menu.txt";
+	private static int EXIT = -1;
 	private UserDatabase users;
-	//private ProgramDatabase programs;
+	private ProgramDatabase programs;
 	private User currentUser;
 	private String[] menuOptions;
 	private int numMenuOptions;
@@ -13,7 +14,7 @@ public class InformationSystem {
 
 	public InformationSystem(){
 		users = new UserDatabase();
-		//programs = new ProgramDatabase();
+		programs = new ProgramDatabase();
 		sc = new Scanner(System.in);
 		endProgram = false;
 		loadMenu();
@@ -37,7 +38,7 @@ public class InformationSystem {
 
 	public void displayMenu () {
 		do {
-			System.out.println("\nInformation System");
+			System.out.println("\n--- Information System ---");
 			for (int i = 0; i < numMenuOptions; i++) {
 				System.out.println(menuOptions[i]);
 			}
@@ -69,7 +70,7 @@ public class InformationSystem {
 				logInAdmin();
 				break;
 			case 3:
-				currentUser = UserDatabase.getGuest();
+				currentUser = UserDatabase.GUEST;
 				break;
 			case 4:
 				createStudentAccount();
@@ -90,7 +91,7 @@ public class InformationSystem {
 	public void logInStudent () {
 		String username, password;
 
-		System.out.println("\nStudent Login");
+		System.out.println("\n--- Student Login ---");
 
 		System.out.print("Username: ");
 		username = sc.nextLine();
@@ -98,7 +99,17 @@ public class InformationSystem {
 		password = sc.nextLine();
 
 		while (users.searchStudentByLoginInfo(username, password) == null) {
-			System.out.println("Invalid username or password!");
+			System.out.println("Invalid username or password! Enter anything to try");
+			System.out.println("again. Enter -1 to return to the main menu.");
+			String choice = sc.nextLine();
+			try {
+				if (Integer.parseInt(choice) == EXIT) {
+					return;
+				}
+			} catch (NumberFormatException nfe) {
+			};
+
+			System.out.println("\n--- Student Login ---");
 			System.out.print("Username: ");
 			username = sc.nextLine();
 			System.out.print("Password: ");
@@ -112,7 +123,7 @@ public class InformationSystem {
 	public void logInAdmin () {
 		String username, password;
 
-		System.out.println("\nAdmin Login");
+		System.out.println("\n--- Admin Login ---");
 
 		System.out.print("Username: ");
 		username = sc.nextLine();
@@ -120,8 +131,18 @@ public class InformationSystem {
 		password = sc.nextLine();
 
 		while (users.searchAdminByLoginInfo(username, password) == null) {
-			System.out.println("Invalid username or password!");
-			System.out.print("Usernasme: ");
+			System.out.println("Invalid username or password! Enter anything to try");
+			System.out.println("again. Enter -1 to return to the main menu.");
+			String choice = sc.nextLine();
+			try {
+				if (Integer.parseInt(choice) == EXIT) {
+					return;
+				}
+			} catch (NumberFormatException nfe) {
+			};
+
+			System.out.println("\n--- Admin Login ---");
+			System.out.print("Username: ");
 			username = sc.nextLine();
 			System.out.print("Password: ");
 			password = sc.nextLine();
@@ -131,13 +152,20 @@ public class InformationSystem {
 	}
 
 	public void createStudentAccount () {
+		final int MIN_USERNAME_LENGTH = 4;
+		final int MIN_PASSWORD_LENGTH = 6;
 		String username, password, firstName, lastName, oen, studentNum;
 		int numCourses = 0;
 
-		System.out.println("\nStudent Registration");
+		System.out.println("\n--- Student Registration ---");
 
 		System.out.print("Username: ");
 		username = sc.nextLine();
+		while (username.length() < MIN_USERNAME_LENGTH) {
+			System.out.println("Username must be at least " + MIN_USERNAME_LENGTH + " characters long.");
+			System.out.print("Username: ");
+			username = sc.nextLine();
+		}
 		while (!users.checkStudentUsername(username)) {
 			System.out.println("Username unavailable. Please enter a new one.");
 			System.out.print("Username: ");
@@ -145,6 +173,11 @@ public class InformationSystem {
 		}
 		System.out.print("Password: ");
 		password = sc.nextLine();
+		while (password.length() < MIN_PASSWORD_LENGTH) {
+			System.out.println("Password must be at least " + MIN_PASSWORD_LENGTH + " characters long.");
+			System.out.print("Password: ");
+			password = sc.nextLine();
+		}
 		System.out.print("First Name: ");
 		firstName = sc.nextLine();
 		System.out.print("Last Name: ");
@@ -185,12 +218,12 @@ public class InformationSystem {
 					sc.nextLine();
 				} catch (InputMismatchException ime) {
 					sc.nextLine();
+				}
+				if (!(mark >= ActiveCourse.MIN_MARK && mark <= ActiveCourse.MAX_MARK)) {
 					System.out.println("Invalid input.");
+					mark = -1;
 				}
-				if (!(mark >= 0 && mark <= 100)) {
-					System.out.println("Invalid mark.");
-				}
-			} while (!(mark >= 0 && mark <= 100));
+			} while (mark == -1);
 
 			courseList.add(new ActiveCourse(courseCode, mark));
 		}
@@ -199,30 +232,7 @@ public class InformationSystem {
 		users.addStudent(student);
 
 		System.out.println("Registration successful.");
-		displayMenu();
 	}
-
-	/*
-	public void createAdminAccount () {
-		System.out.println("\nAdmin Login");
-
-		System.out.print("Username: ");
-		String username = sc.nextLine();
-		while (!users.checkAdminUsername(username)) {
-			System.out.println("Username unavailable. Please enter a new one.");
-			System.out.print("Username: ");
-			username = sc.nextLine();
-		}
-		System.out.print("Password: ");
-		String password = sc.nextLine();
-		System.out.print("Admin Number: ");
-		String adminNumber = sc.nextLine();
-
-		users.addAdmin(username, password, adminNumber);
-
-		System.out.println("Registration successful.");
-		displayMenu();
-	}*/
 
 	public static void main (String[] args) {
 		InformationSystem is = new InformationSystem();
