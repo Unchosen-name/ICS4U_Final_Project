@@ -114,7 +114,7 @@ public class Student extends User{
 	}
 
 	//displays the menu for admin users
-	public void displayMenu() {
+	public void displayMainMenu() {
 		Scanner sc = new Scanner(System.in);
 		int choice = 0;
 		boolean keepOnGoing = true;
@@ -178,7 +178,7 @@ public class Student extends User{
 
 	public void viewCourses () {
 		displayCourseList();
-		System.out.println("Enter anything to return to the student menu: ");
+		System.out.println("Enter anything to return to the previous menu: ");
 		sc.nextLine();
 	}
 
@@ -191,8 +191,8 @@ public class Student extends User{
 		System.out.println("\n--- Add Course ---");
 
 		if (courseTracker.getNumCourses() >= CourseTracker.MAX_COURSES) {
-			System.out.println("You can only have 8 courses at a time! Please drop one of your existing courses");
-			System.out.println("and try again. Enter anything to return to the student menu.");
+			System.out.println("A student can only take 8 courses at a time! Please drop an existing course");
+			System.out.println("and try again. Enter anything to return to the previous menu.");
 			sc.nextLine();
 			return;
 		} else {
@@ -210,7 +210,7 @@ public class Student extends User{
 				};
 			}
 			while (courseTracker.courseExists(courseCode)) {
-				System.out.println("You are already taking this course!");
+				System.out.println("Already taking this course!");
 				System.out.print("Enter a new course (enter " + EXIT + " to cancel): ");
 				courseCode = sc.nextLine();
 				try {
