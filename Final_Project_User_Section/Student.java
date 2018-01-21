@@ -147,9 +147,18 @@ public class Student extends User{
 					//call program list method
 					break;
 				case 3:
-					updateMarkByStandardInput();
+					viewCourses();
 					break;
-				case 4: 
+				case 4:
+					addCourse();
+					break;
+				case 5:
+					deleteCourse();
+					break;
+				case 6:
+					updateCourseMark();
+					break;
+				case 7:
 					keepOnGoing = false;
 					break;
 			}
@@ -157,38 +166,153 @@ public class Student extends User{
 		}
 	}
 
-	//student update mark
-	public void updateMarkByStandardInput () {
-		final int MIN_MARK = 0;
-		final int MAX_MARK = 100;
+	private void displayCourseList () {
+		ArrayList<ActiveCourse> courseList = courseTracker.getCourseList();
+
+		System.out.printf("%n--- %s %s's Courses ---%n", firstName, lastName);
+		for (int i = 0; i < courseList.size(); i++) {
+			ActiveCourse course = courseList.get(i);
+			System.out.printf("%d - %s (%.1f)%n", i+1, course.getCourseCode(), course.getMark());
+		}
+	}
+
+	public void viewCourses () {
+		displayCourseList();
+		System.out.println("Enter anything to return to the student menu: ");
+		sc.nextLine();
+	}
+
+	// READ OVER THIS METHOD
+	public void addCourse () {
+		final int EXIT = -1;
 		String courseCode;
-		double mark = -1;
+		int mark = -1;
 
-		do {
-			System.out.print("Enter course name: ");
+		System.out.println("\n--- Add Course ---");
+
+		if (courseTracker.getNumCourses() >= CourseTracker.MAX_COURSES) {
+			System.out.println("You can only have 8 courses at a time! Please drop one of your existing courses");
+			System.out.println("and try again. Enter anything to return to the student menu.");
+			sc.nextLine();
+			return;
+		} else {
+			System.out.print("Course Code: ");
 			courseCode = sc.nextLine();
-			if (!courseTracker.courseExists(courseCode)) {
-				System.out.println("Course not found!");
+			while (!CourseTracker.isValidCourse(courseCode)) {
+				System.out.println("That course is not offered at AY Jackson.");
+				System.out.print("Enter a new course (enter " + EXIT + " to cancel): ");
+				courseCode = sc.nextLine();
+				try {
+					if (Integer.parseInt(courseCode) == EXIT) {
+						return;
+					}
+				} catch (NumberFormatException nfe) {
+				};
 			}
-		} while(!courseTracker.courseExists(courseCode));
+			while (courseTracker.courseExists(courseCode)) {
+				System.out.println("You are already taking this course!");
+				System.out.print("Enter a new course (enter " + EXIT + " to cancel): ");
+				courseCode = sc.nextLine();
+				try {
+					if (Integer.parseInt(courseCode) == EXIT) {
+						return;
+					}
+				} catch (NumberFormatException nfe) {
+				};
+			}
 
+			do {
+				try {
+					System.out.print("Mark: ");
+					mark = sc.nextInt();
+					sc.nextLine();
+				} catch (InputMismatchException ime) {
+					sc.nextLine();
+				}
+				if (!(mark >= ActiveCourse.MIN_MARK && mark <= ActiveCourse.MAX_MARK)) {
+					System.out.println("Invalid input.");
+					mark = -1;
+				}
+			} while (mark == -1);
+
+			ActiveCourse course = new ActiveCourse(courseCode, mark);
+			courseTracker.addCourse(course);
+			System.out.println("Course added successfully!");
+		}
+	}
+
+	public void deleteCourse () {
+		final int EXIT = -1;
+		int choice = 0;
+		ArrayList<ActiveCourse> courseList = courseTracker.getCourseList();
+		displayCourseList();
+
+		System.out.println("Enter the number associated with the course you wish to delete (or enter " + EXIT + " to cancel):");
+		while (choice == 0) {
+			try {
+				choice = sc.nextInt();
+				sc.nextLine();
+			} catch (InputMismatchException ime) {
+				sc.nextLine();
+			}
+			
+			if (choice == EXIT) {
+				return;
+			} else if (!(choice >= 1 && choice <= courseList.size())) {
+				System.out.print("Invalid input! Please try again: ");
+				choice = 0;
+			}
+		}
+
+		ActiveCourse course = courseList.get(choice - 1);
+		courseTracker.dropCourse(course);
+		System.out.println("Course successfully droppped.");
+	}
+
+	//student update mark
+	public void updateCourseMark () {
+		final int EXIT = -1;
+		int choice = 0;
+		double mark = Double.NaN;
+		ArrayList<ActiveCourse> courseList = courseTracker.getCourseList();
+		displayCourseList();
+
+		System.out.println("Enter the number associated with the course you wish to update (or enter " + EXIT + " to cancel):");
+		while (choice == 0) {
+			try {
+				choice = sc.nextInt();
+				sc.nextLine();
+			} catch (InputMismatchException ime) {
+				sc.nextLine();
+			}
+			
+			if (choice == EXIT) {
+				return;
+			} else if (!(choice >= 1 && choice <= courseList.size())) {
+				System.out.print("Invalid input! Please try again: ");
+				choice = 0;
+			}
+		}
+
+		ActiveCourse course = courseList.get(choice - 1);
+
+		System.out.printf("Enter a new mark for %s (or enter %d to cancel): ", course.getCourseCode(), EXIT);
 		do {
-			System.out.print("Enter mark: ");
 			try {
 				mark = sc.nextDouble();
 				sc.nextLine();
 			} catch (InputMismatchException ime) {
 				sc.nextLine();
-				System.out.println("Invalid input! Please try again.");
+				System.out.println("Invalid input. Please try again: ");
 			}
-
-			if (mark != -1 && !(mark >= MIN_MARK && mark <= MAX_MARK)) {
-				mark = -1;
-				System.out.println("Invalid input! Please try again.");
+			if (mark == EXIT) {
+				return;
+			} else if (!course.updateMark(mark)) {
+				mark = Double.NaN;
+				System.out.println("Mark must be between " + ActiveCourse.MIN_MARK + " and " + ActiveCourse.MAX_MARK + ". Please try again: ");
 			}
-		} while (mark == -1);
+		} while (mark == Double.NaN);
 
-		courseTracker.updateMark(courseCode, mark);
 		System.out.println("Mark updated successfully!");
 	}
 }
