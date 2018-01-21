@@ -4,15 +4,15 @@
 // School: 	A.Y Jackson Secondary School
 // Purpose: This class contains fields and methods that every admin should have access to 
 //          that will make up an interactive Q&A menu for them. This class also inherits 
-//			fields and methods from the QNAPage class, which contains everything that is
-//			used by the general user
+//			   fields and methods from the QNAPage class, which contains everything that is
+//			   used by the general user
 import java.util.*;
 import java.io.*;
 
 public class QNAAdmin extends QNAPage 
 {
    private static final String UNANSWERED = "Active QNAs.txt";          // name for file containing unanswered Q&As, which admin has access to
-   private static final String MENU = "Admin Menu.txt";                 // name for file containing the admin menu
+   private static final String MENU = "QNA Admin Menu.txt";                 // name for file containing the admin menu
    private static int numUQs;                                           // number of unanswered questions
    private static ArrayList<QNA> unansweredQNAs = new ArrayList<QNA>(); // an array list storing all unanswered questions
    private static final String EMPTY = "";                              // empty String used to initialize answer for unanswered questions
@@ -60,6 +60,7 @@ public class QNAAdmin extends QNAPage
       int option = INITIAL;                                                // initialize option (useful value inputted in try strcture)
       do
       {
+         System.out.println("\n--- Admin Q&A Menu ---");
          for (int i = 0; i < numMenuOptions; i ++)                
          {
             System.out.println (menu.get(i));                              // first print all menu options
@@ -88,7 +89,6 @@ public class QNAAdmin extends QNAPage
 				}
 			} 
 			
-			System.out.println ();
          switch (option)                     // once option number is valid, enter the switch structure                     
          {
             case 1:                          // if option = 1
@@ -193,6 +193,7 @@ public class QNAAdmin extends QNAPage
 		boolean exit;                             // declare a boolean variable representing whether admin wishes to exit this page
       do
       {
+         System.out.println("\n--- Browse Unanswered Questions By Category ---");
 			exit = false;                          // set exit to false, assuming admin doesn't want to exit yet
          
          answerPrompt();                        // call the answerPrompt method, note that this method is overloaded and if called without parametres,
@@ -200,14 +201,13 @@ public class QNAAdmin extends QNAPage
          deletePrompt();                        // call the deletePrompt method with no parametres
          savingPrompt();                        // call the savingsPrompt method
          
-         System.out.println ("Enter \"" + EXIT + "\" to return to previous menu, enter any other key to continue viewing questions: ");
+         System.out.println ("\nEnter \"" + EXIT + "\" to return to previous menu, enter any other key to continue viewing questions: ");
          String choice;                         // declare variable reperesenting user's choice
          choice = sc.nextLine();                
          if (choice.equals(EXITSTR))            // if user enters the exit number here
          {
             exit = true;                        // then exit will become true
-         }  
-			System.out.println ();       
+         }
       } while (!exit);                          // exit this page only when user enters the exit number
    } // browseUnanswered method
   
@@ -216,14 +216,13 @@ public class QNAAdmin extends QNAPage
       sc.nextLine();                            
       final String SAVE = "1";                  // constant to check whether user wants to save
       
-      System.out.println ("Would you like to save changes? (Enter \""+ SAVE +"\" to save, enter any other key to dismiss)");
+      System.out.println ("\nWould you like to save changes? (Enter \""+ SAVE +"\" to save, enter any other key to dismiss)");
       String choice;                            
       choice = sc.nextLine();                   // user enters choice
       if (choice.equals(SAVE))                  // if choice is equal to the saving constant
       {
          save();                                // call the save method
       }
-      System.out.println ();
    } // savingPrompt method
    
    public static void save()                    // this method saves admin's progress in answering or deleting questions
@@ -274,7 +273,7 @@ public class QNAAdmin extends QNAPage
       int id = INITIAL;                                              // initialize id representing user's choice of question to answer
       do
       {
-         System.out.println ("Available questions to answer:");
+         System.out.println ("\nAvailable questions to answer:");
          boolean available = false;                                  // available is initialized to false, the variable will be set to true
                                                                      // when any available questions belonging to the chosen category is found
          for (int i = 0; i < possibleIds.size(); i ++)
@@ -690,6 +689,7 @@ public class QNAAdmin extends QNAPage
 		sc.nextLine();
       do
       {
+         System.out.println("\n--- Add Category ---");
          System.out.println ("Enter new category name (\""+ EXIT +"\" to return to previous menu): ");
          newCategory = sc.nextLine();           // admin enters the category name
          if (!newCategory.equals(EXITSTR))      // if exit number is not entered
