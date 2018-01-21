@@ -6,23 +6,21 @@
 import java.util.*;
 import java.io.*;
 
-public class UserDatabase{
+public class UserDatabase {
 	private static final String ADMINFILE = "admin_list.txt";
 	private static final String STUDENTFILE = "student_list.txt"; 
-	private static final Guest GUEST = new Guest();
+	public static final Guest GUEST = new Guest();
 
 	private ArrayList<Admin> adminTracker;
 	private ArrayList<Student> studentTracker;
+	private ProgramDatabase programDatabase;
 
 	public UserDatabase () {
 		adminTracker = new ArrayList<Admin>();
 		studentTracker = new ArrayList<Student>();
+		programDatabase = new ProgramDatabase();
 		loadAdminList();
 		loadStudentList();
-	}
-
-	public static Guest getGuest() {
-		return GUEST;
 	}
 
 	public void loadAdminList () {
@@ -33,7 +31,7 @@ public class UserDatabase{
 
 			for(int i = 0; i < numAdmins; i++){
 				in.readLine();
-				Admin admin = new Admin(in.readLine(), in.readLine(), in.readLine(), studentTracker);
+				Admin admin = new Admin(in.readLine(), in.readLine(), in.readLine(), studentTracker, programDatabase);
 				adminTracker.add(admin);
 			}
 
@@ -79,7 +77,7 @@ public class UserDatabase{
 			in.close();
 		}
 		catch(IOException iox){
-			System.out.println("Error reading from file");
+			System.out.println("Error reading from student file");
 		}
 		catch(NumberFormatException nfe){
 			System.out.println("Error converting from string to integer (user database - load student list)");
@@ -89,13 +87,13 @@ public class UserDatabase{
 
 	//save admin list to file
 	public void saveAdminList(){
-		try{
-			BufferedWriter out = new BufferedWriter(new FileWriter(ADMINFILE));
+		try {
+			BufferedWriter out = new BufferedWriter (new FileWriter(ADMINFILE));
 
 			out.write(adminTracker.size() + "");
 			out.newLine();
 
-			for(Admin admin : adminTracker) {
+			for (Admin admin : adminTracker) {
 				out.newLine();
 
 				out.write(admin.getUsername());
@@ -104,12 +102,11 @@ public class UserDatabase{
 				out.newLine();
 				out.write(admin.getAdminNumber());
 				out.newLine();
-
 			}
 
-		}
-		catch(IOException iox){
-			System.out.println("Error writing to file");
+			out.close();
+		} catch (IOException iox) {
+			System.out.println("Error writing to admin file.");
 		}
 	}
 
@@ -164,7 +161,7 @@ public class UserDatabase{
 	}
 
 	public void addAdmin (String username, String password, String adminNumber) {
-		Admin admin = new Admin(username, password, adminNumber, studentTracker);
+		Admin admin = new Admin(username, password, adminNumber, studentTracker, programDatabase);
 		adminTracker.add(admin);
 		saveAdminList();
 	}
