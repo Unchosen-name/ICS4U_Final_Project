@@ -5,12 +5,15 @@ import java.io.*;
 public class Admin extends User{
 
 	private final String MENU = "Admin_Menu.txt";
+	private final String UPDATE_STUDENT_COURSE_MENU = "Admin - Update Student Course Menu.txt";
 	private String adminNumber;
-	private int numMenuOptions;
-	private String[] menuOptions;
 	private Scanner sc;
 	private ArrayList<Student> studentList;
 	private ProgramDatabase programDatabase;
+	private int numMenuOptions;
+	private String[] menuOptions;
+	private int numUpdateCourseMenuOptions;
+	private String[] updateCourseMenuOptions;
 
 	//admin constructor. takes in username, password, and admin number as strings
 	//respectively
@@ -20,7 +23,8 @@ public class Admin extends User{
 		this.studentList = studentList;
 		this.programDatabase = programDatabase;
 		sc = new Scanner(System.in);
-		loadMenu();
+		loadMainMenu();
+		loadUpdateCourseMenu();
 	}
 
 	public String getUsername(){
@@ -47,7 +51,7 @@ public class Admin extends User{
 		adminNumber = num;
 	}
 
-	public void loadMenu () {
+	public void loadMainMenu () {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(MENU));
 			numMenuOptions = Integer.parseInt(in.readLine());
@@ -64,9 +68,25 @@ public class Admin extends User{
 		}
 	}
 
+	public void loadUpdateCourseMenu () {
+		try {
+			BufferedReader in = new BufferedReader(new FileReader(UPDATE_STUDENT_COURSE_MENU));
+			numUpdateCourseMenuOptions = Integer.parseInt(in.readLine());
+			in.readLine();
+
+			updateCourseMenuOptions = new String[numUpdateCourseMenuOptions];
+			for (int i = 0; i < numUpdateCourseMenuOptions; i++) {
+				updateCourseMenuOptions[i] = in.readLine();
+			}
+
+			in.close();
+		} catch(IOException iox){
+			System.out.println("Error reading admin's \"update student course menu\" from file.");
+		}
+	}
 
 	//displays the menu for admin users
-	public void displayMenu(){
+	public void displayMainMenu(){
 		int choice = 0;
 		boolean keepOnGoing = true;
 
@@ -76,14 +96,18 @@ public class Admin extends User{
 				System.out.println(menuOptions[i]);
 			}
 
-			while (!(choice > 0 && choice <= numMenuOptions)) {
+			while (choice == 0) {
 				try {
-					System.out.print("Enter an option: ");
+					System.out.print("Enter your choice: ");
 					choice = sc.nextInt();
 					sc.nextLine();
 				} catch (InputMismatchException ime) {
 					sc.nextLine();
-					System.out.print("Invalid input. ");
+				}
+
+				if (!(choice > 0 && choice <= numMenuOptions)) {
+					System.out.println("Invalid input!");
+					choice = 0;
 				}
 			}
 
@@ -97,13 +121,16 @@ public class Admin extends User{
 					//search programs
 					break;
 				case 3:
-					updateStudentMark();
+					// add program
 					break;
 				case 4: 
-					//add program
+					//delete program
 					break;
 				case 5:
-					//delete program
+					Student student = selectStudentByOEN();
+					if (student != null) {
+						displayUpdateCourseMenu(student);
+					}
 					break;
 				case 6:
 					keepOnGoing = false;
@@ -113,7 +140,7 @@ public class Admin extends User{
 		}
 	}
 
-	private void updateStudentMark() {
+	private Student selectStudentByOEN () {
 		final int EXIT = -1;
 		boolean markUpdated = false;
 		String studentNumber, courseCode;
@@ -121,7 +148,7 @@ public class Admin extends User{
 		Student student;
 		ActiveCourse course;
 
-		System.out.println("\nUpdate Student Mark");
+		System.out.println("\n--- Select Student ---");
 		System.out.print("Student OEN: ");
 		studentNumber = sc.nextLine();
 		student = searchStudentByOEN(studentNumber);
@@ -131,13 +158,59 @@ public class Admin extends User{
 			studentNumber = sc.nextLine();
 			try {
 				if (Integer.parseInt(studentNumber) == EXIT) {
-					return;
+					return null;
 				}
 			} catch (NumberFormatException nfe) {};
 			student = searchStudentByOEN(studentNumber);
 		}
 
-		student.updateCourseMark();
+		return student;
+	}
+
+	private void displayUpdateCourseMenu (Student student) {
+		final int EXIT = -1;
+		int choice = 0;
+		boolean keepOnGoing = true;
+
+		do {
+			System.out.println("\n--- Update Student Courses ---");
+			for (int i = 0; i < updateCourseMenuOptions.length; i++) {
+				System.out.println(updateCourseMenuOptions[i]);
+			}
+
+			while (choice == 0) {
+				try {
+					System.out.print("Enter your choice (or enter " + EXIT + " to cancel): ");
+					choice = sc.nextInt();
+					sc.nextLine();
+				} catch (InputMismatchException ime) {
+					sc.nextLine();
+				}
+
+				if (choice == EXIT) {
+					return;
+				} else if (!(choice > 0 && choice <= numUpdateCourseMenuOptions)) {
+					System.out.println("Invalid input!");
+					choice = 0;
+				}
+			}
+
+			switch (choice){
+				case 1:
+					student.viewCourses();
+					break;
+				case 2:
+					student.addCourse();
+					break;
+				case 3:
+					student.deleteCourse();
+					break;
+				case 4: 
+					student.updateCourseMark();
+					break;
+			}
+			choice = 0;
+		} while (keepOnGoing);
 	}
 
 	private Student searchStudentByOEN (String OEN) {
