@@ -10,15 +10,15 @@ public class Admin extends User{
 	private String[] menuOptions;
 	private Scanner sc;
 	private ArrayList<Student> studentList;
-	//private ProgramDatabase programDatabase;
+	private ProgramDatabase programDatabase;
 
 	//admin constructor. takes in username, password, and admin number as strings
 	//respectively
-	public Admin(String username, String password, String adminNumber, ArrayList<Student> studentList/*, ProgramDatabase programDatabase*/){
+	public Admin(String username, String password, String adminNumber, ArrayList<Student> studentList, ProgramDatabase programDatabase){
 		super(username, password);
 		this.adminNumber = adminNumber;
 		this.studentList = studentList;
-		//this.programDatabase = programDatabase;
+		this.programDatabase = programDatabase;
 		sc = new Scanner(System.in);
 		loadMenu();
 	}
@@ -115,8 +115,6 @@ public class Admin extends User{
 
 	private void updateStudentMark() {
 		final int EXIT = -1;
-		final int MIN_MARK = 0;
-		final int MAX_MARK = 100;
 		boolean markUpdated = false;
 		String studentNumber, courseCode;
 		double newMark = -1;
@@ -139,31 +137,7 @@ public class Admin extends User{
 			student = searchStudentByOEN(studentNumber);
 		}
 
-		student.updateMarkByStandardInput();
-
-		/*
-		while (!markUpdated) {
-			System.out.print("Course code: ");
-			courseCode = sc.nextLine();
-
-			while (!(newMark >= MIN_MARK && newMark <= MAX_MARK)) {
-				System.out.print("Mark: ");
-				try {
-					newMark = sc.nextDouble();
-					sc.nextLine();
-				} catch (InputMismatchException ime) {
-					sc.nextLine();
-					System.out.print("Invalid input! ");
-				}
-			}
-
-			markUpdated = student.updateMark(courseCode, newMark);
-			if (!markUpdated) {
-				System.out.println("Course not found!");
-				newMark = -1;
-			}
-		}
-		System.out.println("Mark updated successfully!");*/
+		student.updateCourseMark();
 	}
 
 	private Student searchStudentByOEN (String OEN) {
