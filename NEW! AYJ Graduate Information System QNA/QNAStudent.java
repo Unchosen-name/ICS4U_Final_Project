@@ -14,7 +14,7 @@ public class QNAStudent extends QNAPage
    private static final String UNANSWERED = "Active QNAs.txt";          // file name for unanswered questions list, used by student class to upload a question
    private static int numUQs;                                           // number of unanswered questions
    private static ArrayList<QNA> unansweredQNAs = new ArrayList<QNA>(); // array list storing unanswered questions
-   private static final String MENU = "Student Menu.txt";               // file name for student menu options
+   private static final String MENU = "QNA Student Menu.txt";               // file name for student menu options
    private static final String EMPTY = "";                              // empty String used to initialize answer for unanswered questions
    
    public static void initQNA ()                                        // this method initializes all useful fields and array lists for student
@@ -60,6 +60,7 @@ public class QNAStudent extends QNAPage
       int option = INITIAL;                                                // initialize option (useful value inputted in try strcture)
       do
       {
+      	System.out.println("\n--- Student Q&A Menu ---");
          for (int i = 0; i < numMenuOptions; i ++)                
          {
             System.out.println (menu.get(i));                              // first print all menu options
@@ -86,13 +87,12 @@ public class QNAStudent extends QNAPage
 					System.out.print ("Invalid input, enter again: ");             // and ask user to enter again
                sc.nextLine();
 				}
-			} 
-			System.out.println ();
+			}
 			
          switch (option)                     // once option number is valid, enter the switch structure
          {
             case 1:                          // if option = 1
-              displayList();                 // display list of Q&As
+            	  displayList();                 // display list of Q&As
 				  break;
 				case 2:                          // if option = 2
 					searchKeyWord();              // search questions by keyword
