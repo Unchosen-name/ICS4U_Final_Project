@@ -81,7 +81,7 @@ public class InformationSystem {
 		}
 
 		if (currentUser != null) {
-			currentUser.displayMenu();
+			currentUser.displayMainMenu();
 			currentUser = null;
 		}
 
